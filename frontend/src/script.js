@@ -20,17 +20,15 @@ class App {
 		root.style.margin = `${ROOT_MARGIN}px`;
 		root.style.height = `${clientHeight - 2 * ROOT_MARGIN}px`;
 
-		this.drawMainBg();
-		this.drawVerticalPixelGrid();
+		// this.drawVerticalPixelGrid();
 		// this.drawHorizontalPixelGrid();
-	}
-
-	drawMainBg() {
-		this.c.fillStyle = 'lightgrey';
-		this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		this.drawCircle(100, 100, 50, true);
+		this.drawCircle(200, 100, 70, false);
+		this.drawCircle(400, 200, 70, true);
 	}
 
 	drawVerticalPixelGrid() {
+		this.c.save();
 		for (let i = 0.5; i < this.canvas.width; i += 2) {
 			this.c.lineWidth = 1;
 			this.c.beginPath();
@@ -39,9 +37,11 @@ class App {
 			this.c.strokeStyle = '#8a8a8a';
 			this.c.stroke();
 		}
+		this.c.restore();
 	}
 
 	drawHorizontalPixelGrid() {
+		this.c.save();
 		for (let i = 0.5; i < this.canvas.height; i += 2) {
 			this.c.lineWidth = 1;
 			this.c.beginPath();
@@ -50,6 +50,28 @@ class App {
 			this.c.strokeStyle = '#8a8a8a';
 			this.c.stroke();
 		}
+		this.c.restore();
+	}
+
+	drawCircle(x, y, r, shouldFill) {
+		const startAngle = getRandomNumber(0, Math.PI * 2);
+		const diffAngle = getRandomNumber(Math.PI / 2, Math.PI * 2);
+		console.log(startAngle * (180 / Math.PI), (startAngle + diffAngle) * (180 / Math.PI));
+
+		this.c.save();
+		this.c.beginPath();
+		this.c.arc(x, y, r, startAngle, startAngle + diffAngle, false);
+		if (shouldFill) {
+			this.c.fillStyle = '#000';
+			this.c.fill();
+			this.c.fillRect(x,y,1,1);
+		} else {
+			this.c.strokeStyle = '#000';
+			this.c.lineWidth = 2;
+			this.c.stroke();
+			this.c.fillRect(x,y,1,1);
+		}
+		this.c.restore();
 	}
 }
 
@@ -57,3 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const app = new App();
 });
 
+function getRandomNumber(min, max) {
+	return (Math.random() * (max - min)) + min;
+}
