@@ -22,9 +22,7 @@ class App {
 
 		// this.drawVerticalPixelGrid();
 		// this.drawHorizontalPixelGrid();
-		this.drawCircle(100, 100, 50, true);
-		this.drawCircle(200, 100, 70, false);
-		this.drawCircle(400, 200, 70, true);
+		this.drawCirclesPattern(50);
 	}
 
 	drawVerticalPixelGrid() {
@@ -53,10 +51,31 @@ class App {
 		this.c.restore();
 	}
 
+	drawCirclesPattern(radius) {
+		const { height, width } = this.canvas;
+		const minPadding = 10;
+		const circlesInRow = Math.floor(width / (radius * 2 + minPadding * 2));
+		const circlesInCol = Math.floor(height / (radius * 2 + minPadding * 2));
+
+		console.log(circlesInRow, circlesInCol);
+		const paddingX = Math.floor((width - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
+		const paddingY = Math.floor((height - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
+
+		for (let i = 0; i < circlesInRow; i++) {
+			for (let j = 0; j < circlesInCol; j++) {
+				this.drawCircle(
+					(1 + i * 2) * (radius + paddingX),
+					(1 + j * 2) * (radius + paddingY),
+					radius,
+					i % 3 < 1
+				);
+			}
+		}
+	}
+
 	drawCircle(x, y, r, shouldFill) {
 		const startAngle = getRandomNumber(0, Math.PI * 2);
 		const diffAngle = getRandomNumber(Math.PI / 2, Math.PI * 2);
-		console.log(startAngle * (180 / Math.PI), (startAngle + diffAngle) * (180 / Math.PI));
 
 		this.c.save();
 		this.c.beginPath();
@@ -64,12 +83,10 @@ class App {
 		if (shouldFill) {
 			this.c.fillStyle = '#000';
 			this.c.fill();
-			this.c.fillRect(x,y,1,1);
 		} else {
 			this.c.strokeStyle = '#000';
 			this.c.lineWidth = 2;
 			this.c.stroke();
-			this.c.fillRect(x,y,1,1);
 		}
 		this.c.restore();
 	}
