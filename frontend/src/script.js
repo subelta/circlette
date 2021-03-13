@@ -60,7 +60,7 @@ class App {
 	}
 
 	drawCirclesPattern(radius) {
-		const minPadding = 10;
+		const minPadding = 5;
 		const circlesInRow = Math.floor(this.cssWidth / (radius * 2 + minPadding * 2));
 		const circlesInCol = Math.floor(this.cssHeight / (radius * 2 + minPadding * 2));
 
@@ -83,7 +83,7 @@ class App {
 
 	drawCircle(x, y, r, shouldFill) {
 		const startAngle = getRandomNumber(0, Math.PI * 2);
-		const diffAngle = getRandomNumber(Math.PI / 2, Math.PI * 2);
+		const diffAngle = getRandomNumber(Math.PI / 2, Math.PI * 3);
 
 		this.c.save();
 		this.c.beginPath();
