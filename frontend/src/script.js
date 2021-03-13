@@ -6,19 +6,27 @@ const CANVAS_BORDER_W = 1;
 
 class App {
 	constructor() {
-		// set the canvas
-		this.canvas = document.querySelector(`#${CANVAS_ID}`);
-		this.c = this.canvas.getContext('2d');
-
 		const { clientHeight, clientWidth } = document.documentElement;
-		this.canvas.style.borderWidth = `${CANVAS_BORDER_W}px`;
-		this.canvas.width = Math.trunc(clientWidth - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
-		this.canvas.height = Math.trunc(clientHeight - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
 
 		// set the "frame"
 		const root = document.querySelector(`#${ROOT_ID}`);
 		root.style.margin = `${ROOT_MARGIN}px`;
 		root.style.height = `${clientHeight - 2 * ROOT_MARGIN}px`;
+
+		// set the canvas
+		this.canvas = document.querySelector(`#${CANVAS_ID}`);
+		this.c = this.canvas.getContext('2d');
+
+		const dpr = window.devicePixelRatio;
+		this.canvas.width = Math.trunc(clientWidth * dpr - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
+		this.canvas.height = Math.trunc(clientHeight * dpr - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
+
+		this.cssWidth = Math.trunc(clientWidth - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
+		this.cssHeight = Math.trunc(clientHeight - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
+		this.canvas.style.width = `${this.cssWidth}px`;
+		this.canvas.style.height = `${this.cssHeight}px`;
+		this.canvas.style.borderWidth = `${CANVAS_BORDER_W}px`;
+		this.c.scale(dpr, dpr);
 
 		// this.drawVerticalPixelGrid();
 		// this.drawHorizontalPixelGrid();
@@ -52,14 +60,12 @@ class App {
 	}
 
 	drawCirclesPattern(radius) {
-		const { height, width } = this.canvas;
 		const minPadding = 10;
-		const circlesInRow = Math.floor(width / (radius * 2 + minPadding * 2));
-		const circlesInCol = Math.floor(height / (radius * 2 + minPadding * 2));
+		const circlesInRow = Math.floor(this.cssWidth / (radius * 2 + minPadding * 2));
+		const circlesInCol = Math.floor(this.cssHeight / (radius * 2 + minPadding * 2));
 
-		console.log(circlesInRow, circlesInCol);
-		const paddingX = Math.floor((width - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
-		const paddingY = Math.floor((height - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
+		const paddingX = Math.floor((this.cssWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
+		const paddingY = Math.floor((this.cssHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
 
 		for (let i = 0; i < circlesInRow; i++) {
 			for (let j = 0; j < circlesInCol; j++) {
