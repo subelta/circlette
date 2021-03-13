@@ -67,15 +67,17 @@ class App {
 		const paddingX = Math.floor((this.cssWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
 		const paddingY = Math.floor((this.cssHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
 
+		let cnt = 0;
 		for (let i = 0; i < circlesInRow; i++) {
 			for (let j = 0; j < circlesInCol; j++) {
 				this.drawCircle(
 					(1 + i * 2) * (radius + paddingX),
 					(1 + j * 2) * (radius + paddingY),
 					radius,
-					i % 3 < 1
+					cnt > 2
 				);
 			}
+			cnt = cnt > 4 ? 0 : cnt + 1;
 		}
 	}
 
@@ -91,7 +93,7 @@ class App {
 			this.c.fill();
 		} else {
 			this.c.strokeStyle = '#000';
-			this.c.lineWidth = 2;
+			this.c.lineWidth = 1;
 			this.c.stroke();
 		}
 		this.c.restore();
