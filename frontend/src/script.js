@@ -3,6 +3,7 @@ const CANVAS_ID = 'main-canvas';
 
 const ROOT_MARGIN = 5;
 const CANVAS_BORDER_W = 1;
+const MIN_CIRCLES_PAD = 8;
 
 class App {
 	constructor() {
@@ -60,9 +61,8 @@ class App {
 	}
 
 	drawCirclesPattern(radius) {
-		const minPadding = 5;
-		const circlesInRow = Math.floor(this.cssWidth / (radius * 2 + minPadding * 2));
-		const circlesInCol = Math.floor(this.cssHeight / (radius * 2 + minPadding * 2));
+		const circlesInRow = Math.floor(this.cssWidth / (radius * 2 + MIN_CIRCLES_PAD * 2));
+		const circlesInCol = Math.floor(this.cssHeight / (radius * 2 + MIN_CIRCLES_PAD * 2));
 
 		const paddingX = Math.floor((this.cssWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
 		const paddingY = Math.floor((this.cssHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
