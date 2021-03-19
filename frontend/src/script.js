@@ -18,8 +18,8 @@ class App {
 		this.c = this.canvas.getContext('2d');
 
 		const dpr = window.devicePixelRatio;
-		this.canvas.width = Math.trunc(clientWidth * dpr - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
-		this.canvas.height = Math.trunc(clientHeight * dpr - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
+		this.canvas.width = Math.trunc((clientWidth - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN) * dpr);
+		this.canvas.height = Math.trunc((clientHeight - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN) * dpr);
 
 		this.cssWidth = Math.trunc(clientWidth - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
 		this.cssHeight = Math.trunc(clientHeight - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN);
