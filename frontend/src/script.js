@@ -4,6 +4,7 @@ const CANVAS_ID = 'main-canvas';
 const ROOT_MARGIN = 5;
 const CANVAS_BORDER_W = 1;
 const MIN_CIRCLES_PAD = 8;
+const FRAME_PAD = 130;
 
 class App {
 	constructor() {
@@ -28,10 +29,6 @@ class App {
 		this.canvas.style.height = `${this.cssHeight}px`;
 		this.canvas.style.borderWidth = `${CANVAS_BORDER_W}px`;
 		this.c.scale(dpr, dpr);
-
-		// this.drawVerticalPixelGrid();
-		// this.drawHorizontalPixelGrid();
-		this.drawCirclesPattern(50);
 	}
 
 	drawVerticalPixelGrid() {
@@ -61,34 +58,38 @@ class App {
 	}
 
 	drawCirclesPattern(radius) {
-		const circlesInRow = Math.floor(this.cssWidth / (radius * 2 + MIN_CIRCLES_PAD * 2));
-		const circlesInCol = Math.floor(this.cssHeight / (radius * 2 + MIN_CIRCLES_PAD * 2));
+		const circleVicinity = radius * 2 + MIN_CIRCLES_PAD * 2;
+		const adjustedWidth = this.cssWidth - (FRAME_PAD * 2);
+		const adjustedHeight = this.cssHeight - (FRAME_PAD * 2);
 
-		const paddingX = Math.floor((this.cssWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
-		const paddingY = Math.floor((this.cssHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
+		const circlesInRow = Math.floor(adjustedWidth / circleVicinity); // TODO abstract
+		const circlesInCol = Math.floor(adjustedHeight / circleVicinity);
+
+		const paddingX = Math.floor((adjustedWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
+		const paddingY = Math.floor((adjustedHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
 
 		let cnt = 0;
 		for (let i = 0; i < circlesInRow; i++) {
 			for (let j = 0; j < circlesInCol; j++) {
 				this.drawCircle(
-					(1 + i * 2) * (radius + paddingX),
-					(1 + j * 2) * (radius + paddingY),
+					FRAME_PAD + (1 + i * 2) * (radius + paddingX), // TODO wtf is 1, again?
+					FRAME_PAD + (1 + j * 2) * (radius + paddingY),
 					radius,
-					cnt > 2
+					cnt > 2,
 				);
 			}
 			cnt = cnt > 4 ? 0 : cnt + 1;
 		}
 	}
 
-	drawCircle(x, y, r, shouldFill) {
-		const startAngle = getRandomNumber(0, Math.PI * 2);
-		const diffAngle = getRandomNumber(Math.PI / 2, Math.PI * 3);
+	drawCircle(x, y, r, filled, pie) {
+		const startAngle = pie ? getRandomNumber(0, Math.PI * 2) : 0;
+		const diffAngle = pie ? getRandomNumber(Math.PI / 2, Math.PI * 3) : 360;
 
 		this.c.save();
 		this.c.beginPath();
 		this.c.arc(x, y, r, startAngle, startAngle + diffAngle, false);
-		if (shouldFill) {
+		if (filled) {
 			this.c.fillStyle = '#000';
 			this.c.fill();
 		} else {
@@ -102,6 +103,10 @@ class App {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const app = new App();
+
+	// app.drawVerticalPixelGrid();
+	// app.drawHorizontalPixelGrid();
+	app.drawCirclesPattern(30);
 });
 
 function getRandomNumber(min, max) {
