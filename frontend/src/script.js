@@ -6,6 +6,11 @@ const CANVAS_BORDER_W = 1;
 const MIN_CIRCLES_PAD = 8;
 const FRAME_PAD = 130;
 
+const COLORS = {
+	vaporWave: ['#5df8ff', '#db7aff', '#fcf17a'],
+	firesOfHiroshima: ['#FFEB27', '#FF146A']
+};
+
 class App {
 	constructor() {
 		const { clientHeight, clientWidth } = document.documentElement;
@@ -70,11 +75,15 @@ class App {
 
 		let cnt = 0;
 		for (let i = 0; i < circlesInRow; i++) {
+			const startColor = COLORS.vaporWave[getRandomNumber(0, 2, true)];
+			const endColor = COLORS.vaporWave[getRandomNumber(0, 2, true)];
 			for (let j = 0; j < circlesInCol; j++) {
 				this.drawCircle(
 					FRAME_PAD + (1 + i * 2) * (radius + paddingX), // TODO wtf is 1, again?
 					FRAME_PAD + (1 + j * 2) * (radius + paddingY),
 					radius,
+					startColor,
+					endColor,
 					cnt > 2,
 				);
 			}
@@ -82,19 +91,24 @@ class App {
 		}
 	}
 
-	drawCircle(x, y, r, filled, pie) {
+	drawCircle(x, y, r, startColor, endColor, filled, pie) {
 		const startAngle = pie ? getRandomNumber(0, Math.PI * 2) : 0;
 		const diffAngle = pie ? getRandomNumber(Math.PI / 2, Math.PI * 3) : 360;
 
 		this.c.save();
 		this.c.beginPath();
 		this.c.arc(x, y, r, startAngle, startAngle + diffAngle, false);
+
+		const gradient = this.c.createLinearGradient(x, y - r, x, y + r);
+		gradient.addColorStop(0, startColor);
+		gradient.addColorStop(1, endColor);
+
 		if (filled) {
-			this.c.fillStyle = '#000';
+			this.c.fillStyle = gradient;
 			this.c.fill();
 		} else {
-			this.c.strokeStyle = '#000';
-			this.c.lineWidth = 1;
+			this.c.strokeStyle = gradient;
+			this.c.lineWidth = 2;
 			this.c.stroke();
 		}
 		this.c.restore();
@@ -109,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	app.drawCirclesPattern(30);
 });
 
-function getRandomNumber(min, max) {
-	return (Math.random() * (max - min)) + min;
+function getRandomNumber(min, max, round) {
+	const random = (Math.random() * (max - min)) + min;
+	return round ? Math.round(random) : random;
 }
