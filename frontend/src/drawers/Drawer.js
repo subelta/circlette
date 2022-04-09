@@ -1,11 +1,11 @@
 
 // TODO document
-export class Canvas {
+export class Drawer {
 	constructor(props) {
 		Object.assign(this, props);
 	}
 
-	_drawVerticalPixelGrid() {
+	drawVerticalPixelGrid() {
 		this.c.save();
 		for (let i = 0.5; i < this.canvas.width; i += 2) {
 			this.c.lineWidth = 1;
@@ -18,7 +18,7 @@ export class Canvas {
 		this.c.restore();
 	}
 
-	_drawHorizontalPixelGrid() {
+	drawHorizontalPixelGrid() {
 		this.c.save();
 		for (let i = 0.5; i < this.canvas.height; i += 2) {
 			this.c.lineWidth = 1;

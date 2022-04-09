@@ -1,4 +1,4 @@
-import { CirclesPattern } from './entities/CirclesPattern.js';
+import { CirclesDrawer } from './drawers/CirclesDrawer.js';
 
 const ROOT_ID = 'root';
 const CANVAS_ID = 'main-canvas';
@@ -12,13 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	const { clientHeight, clientWidth } = document.documentElement;
 
 	const root = document.querySelector(`#${ROOT_ID}`);
-	root.style.margin = `${ROOT_MARGIN}px`;
-	root.style.height = `${clientHeight - 2 * ROOT_MARGIN}px`;
-
 	const canvas = document.querySelector(`#${CANVAS_ID}`);
 	const ctx = canvas.getContext('2d');
-
 	const dpr = window.devicePixelRatio;
+
+	root.style.margin = `${ROOT_MARGIN}px`;
+	root.style.height = `${clientHeight - 2 * ROOT_MARGIN}px`;
 	canvas.width = Math.trunc((clientWidth - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN) * dpr);
 	canvas.height = Math.trunc((clientHeight - 2 * CANVAS_BORDER_W - 2 * ROOT_MARGIN) * dpr);
 
@@ -30,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	ctx.scale(dpr, dpr);
 
 	const props = { canvas, c: ctx, cssWidth, cssHeight, framePad: CIRCLES_FRAME_PAD };
-	const circles = new CirclesPattern(props);
-	circles.draw();
+	const circlesDrawer = new CirclesDrawer(props);
+	circlesDrawer.drawPattern();
 
-	// circles._drawVerticalPixelGrid();
-	// circles._drawHorizontalPixelGrid();
+	// circles.drawVerticalPixelGrid();
+	// circles.drawHorizontalPixelGrid();
 });
 

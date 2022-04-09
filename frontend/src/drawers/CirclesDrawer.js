@@ -1,5 +1,5 @@
 import { getRandomNumber } from '../utils.js';
-import { Canvas } from './Canvas.js';
+import { Drawer } from './Drawer.js';
 
 const MIN_CIRCLES_PAD = 8;
 const RADIUS = 30;
@@ -9,12 +9,12 @@ const COLORS = {
 };
 
 
-export class CirclesPattern extends Canvas {
+export class CirclesDrawer extends Drawer {
 	constructor(props) {
 		super(props);
 	}
 
-	draw(radius = RADIUS) {
+	drawPattern(radius = RADIUS) {
 		const circleVicinity = radius * 2 + MIN_CIRCLES_PAD * 2;
 		const adjustedWidth = this.cssWidth - (this.framePad * 2);
 		const adjustedHeight = this.cssHeight - (this.framePad * 2);
