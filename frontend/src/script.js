@@ -4,11 +4,11 @@ const CANVAS_ID = 'main-canvas';
 const ROOT_MARGIN = 5;
 const CANVAS_BORDER_W = 1;
 const MIN_CIRCLES_PAD = 8;
-const FRAME_PAD = 130;
+const CIRCLES_FRAME_PAD = 130;
 
 const COLORS = {
-	vaporWave: ['#5df8ff', '#db7aff', '#fcf17a'],
-	firesOfHiroshima: ['#FFEB27', '#FF146A']
+	vaporWave: ['#5df8ff', '#db7aff'],
+	judgementDay: ['#FFEB27', '#FF146A']
 };
 
 class App {
@@ -64,27 +64,31 @@ class App {
 
 	drawCirclesPattern(radius) {
 		const circleVicinity = radius * 2 + MIN_CIRCLES_PAD * 2;
-		const adjustedWidth = this.cssWidth - (FRAME_PAD * 2);
-		const adjustedHeight = this.cssHeight - (FRAME_PAD * 2);
+		const adjustedWidth = this.cssWidth - (CIRCLES_FRAME_PAD * 2);
+		const adjustedHeight = this.cssHeight - (CIRCLES_FRAME_PAD * 2);
 
-		const circlesInRow = Math.floor(adjustedWidth / circleVicinity); // TODO abstract
+		const circlesInRow = Math.floor(adjustedWidth / circleVicinity);
 		const circlesInCol = Math.floor(adjustedHeight / circleVicinity);
 
-		const paddingX = Math.floor((adjustedWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow));
+		const paddingX = Math.floor((adjustedWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow)); // TODO abstract
 		const paddingY = Math.floor((adjustedHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
+
+		const defaultColor = COLORS.judgementDay[getRandomNumber(0, 1, true)];
 
 		let cnt = 0;
 		for (let i = 0; i < circlesInRow; i++) {
-			const startColor = COLORS.vaporWave[getRandomNumber(0, 2, true)];
-			const endColor = COLORS.vaporWave[getRandomNumber(0, 2, true)];
+			const startColor = COLORS.judgementDay[getRandomNumber(0, 1, true)];
+			const endColor = COLORS.judgementDay[getRandomNumber(0, 1, true)];
 			for (let j = 0; j < circlesInCol; j++) {
+				const isFilled = cnt > 2;
+
 				this.drawCircle(
-					FRAME_PAD + (1 + i * 2) * (radius + paddingX), // TODO wtf is 1, again?
-					FRAME_PAD + (1 + j * 2) * (radius + paddingY),
+					CIRCLES_FRAME_PAD + (1 + i * 2) * (radius + paddingX), // TODO wtf is 1, again?
+					CIRCLES_FRAME_PAD + (1 + j * 2) * (radius + paddingY),
 					radius,
-					startColor,
-					endColor,
-					cnt > 2,
+					isFilled ? startColor : defaultColor,
+					isFilled ? endColor : defaultColor,
+					isFilled,
 				);
 			}
 			cnt = cnt > 4 ? 0 : cnt + 1;
