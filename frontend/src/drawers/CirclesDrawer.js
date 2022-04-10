@@ -25,12 +25,12 @@ export class CirclesDrawer extends Drawer {
 		const paddingX = Math.floor((adjustedWidth - (circlesInRow * 2 * radius)) / (2 * circlesInRow)); // TODO abstract
 		const paddingY = Math.floor((adjustedHeight - (circlesInCol * 2 * radius)) / (2 * circlesInCol));
 
-		const defaultColor = COLORS.judgementDay[getRandomNumber(0, 1, true)];
+		const defaultColor = COLORS.judgementDay[getRandomNumber(0, 1)];
 
 		let cnt = 0;
 		for (let i = 0; i < circlesInRow; i++) {
-			const startColor = COLORS.judgementDay[getRandomNumber(0, 1, true)];
-			const endColor = COLORS.judgementDay[getRandomNumber(0, 1, true)];
+			const startColor = COLORS.judgementDay[getRandomNumber(0, 1)];
+			const endColor = COLORS.judgementDay[getRandomNumber(0, 1)];
 			for (let j = 0; j < circlesInCol; j++) {
 				const isFilled = cnt > 2;
 
@@ -48,8 +48,8 @@ export class CirclesDrawer extends Drawer {
 	}
 
 	_drawCircle(x, y, r, startColor, endColor, filled, pie) {
-		const startAngle = pie ? getRandomNumber(0, Math.PI * 2) : 0;
-		const diffAngle = pie ? getRandomNumber(Math.PI / 2, Math.PI * 3) : 360;
+		const startAngle = pie ? getRandomNumber(0, Math.PI * 2, false) : 0;
+		const diffAngle = pie ? getRandomNumber(Math.PI / 2, Math.PI * 3, false) : 360;
 
 		this.c.save();
 		this.c.beginPath();

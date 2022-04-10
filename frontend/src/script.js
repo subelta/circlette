@@ -1,4 +1,5 @@
 import { CirclesDrawer } from './drawers/CirclesDrawer.js';
+import { ParasiteDrawer } from './drawers/ParasiteDrawer.js';
 
 const ROOT_ID = 'root';
 const CANVAS_ID = 'main-canvas';
@@ -30,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const props = { canvas, c: ctx, cssWidth, cssHeight, framePad: CIRCLES_FRAME_PAD };
 	const circlesDrawer = new CirclesDrawer(props);
+	const parasiteDrawer = new ParasiteDrawer(props);
 	circlesDrawer.drawPattern();
+	parasiteDrawer.createSpawnPoint();
 
 	// circles.drawVerticalPixelGrid();
 	// circles.drawHorizontalPixelGrid();
