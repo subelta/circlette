@@ -11,6 +11,7 @@ const CIRCLES_FRAME_PAD = 130;
 
 document.addEventListener('DOMContentLoaded', () => {
 	const { clientHeight, clientWidth } = document.documentElement;
+	// cred test commit
 
 	const root = document.querySelector(`#${ROOT_ID}`);
 	const canvas = document.querySelector(`#${CANVAS_ID}`);
