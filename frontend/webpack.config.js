@@ -1,6 +1,6 @@
 module.exports = {
 	devServer: {
-		contentBase: './src',
+		static: './src',
 		open: true,
 		port: 9998,
 	},
